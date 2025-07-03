@@ -109,8 +109,8 @@ export const constructorSlice = createSlice({
     getConstructorItems: (state) => state.constructorItems,
     getOrderRequest: (state) => state.orderRequest,
     getOrderModalData: (state) => state.orderModalData,
-    getLoading: (state) => state.isLoading,
-    getError: (state) => state.errorMessage
+    getLoadingStatus: (state) => state.isLoading,
+    getErrorMessage: (state) => state.errorMessage
   }
 });
 
@@ -119,8 +119,8 @@ export const {
   getConstructorItems,
   getOrderRequest,
   getOrderModalData,
-  getLoading,
-  getError
+  getLoadingStatus,
+  getErrorMessage
 } = constructorSlice.selectors;
 
 export const {
