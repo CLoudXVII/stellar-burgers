@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
@@ -17,9 +18,13 @@ import '../../index.css';
 import styles from './app.module.css';
 import { ProtectedRoute } from '../protected-route';
 
+import { useDispatch } from '../../services/store';
+import { getIngredients } from '../../services/slices/IngredientSlice';
+
 const App = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
 
   const locationState = location.state as { background?: Location };
   const background = locationState && location.state?.background;
@@ -27,6 +32,10 @@ const App = () => {
   const closeModal = () => {
     navigate(-1);
   };
+
+  useEffect(() => {
+    dispatch(getIngredients());
+  }, [dispatch]);
 
   return (
     <div className={styles.app}>
