@@ -20,6 +20,7 @@ import { ProtectedRoute } from '../protected-route';
 
 import { useDispatch } from '../../services/store';
 import { getIngredients } from '../../services/slices/IngredientSlice';
+import { checkUserAuth } from '../../services/slices/UserSlice';
 
 const App = () => {
   const navigate = useNavigate();
@@ -35,6 +36,10 @@ const App = () => {
 
   useEffect(() => {
     dispatch(getIngredients());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(checkUserAuth());
   }, [dispatch]);
 
   return (
@@ -92,7 +97,6 @@ const App = () => {
           }
         />
         <Route path='*' element={<NotFound404 />} />
-        {/* Переход по прямой ссылке */}
         <Route path='/feed/:number' element={<OrderInfo />} />
         <Route path='/ingredients/:id' element={<IngredientDetails />} />
         <Route
@@ -104,7 +108,6 @@ const App = () => {
           }
         />
       </Routes>
-      {/* Модальные окна */}
       {background && (
         <Routes>
           <Route
