@@ -14,7 +14,7 @@ interface ConstructorState {
     bun: TIngredient | null;
     ingredients: Array<TConstructorIngredient>;
   };
-  orderRequest: boolean;
+  orderRequestStatus: boolean;
   orderModalData: TOrder | null;
   isLoading: boolean;
   errorMessage: string | null | undefined;
@@ -25,7 +25,7 @@ const initialState: ConstructorState = {
     bun: null,
     ingredients: []
   },
-  orderRequest: false,
+  orderRequestStatus: false,
   orderModalData: null,
   isLoading: false,
   errorMessage: null
@@ -65,7 +65,7 @@ export const constructorSlice = createSlice({
           (item) => item.id !== action.payload.id
         );
     },
-    moveUpIngredient: (state, action: PayloadAction<number>) => {
+    moveIngredientUp: (state, action: PayloadAction<number>) => {
       const index = action.payload;
       if (index > 0) {
         const ingredients = state.constructorItems.ingredients;
@@ -75,7 +75,7 @@ export const constructorSlice = createSlice({
         ];
       }
     },
-    moveDownIngredient: (state, action: PayloadAction<number>) => {
+    moveIngredientDown: (state, action: PayloadAction<number>) => {
       const index = action.payload;
       if (index < state.constructorItems.ingredients.length - 1) {
         const ingredients = state.constructorItems.ingredients;
@@ -85,29 +85,29 @@ export const constructorSlice = createSlice({
         ];
       }
     },
-    clearOrder: () => initialState
+    resetOrder: () => initialState
   },
   extraReducers: (builder) => {
     builder
       .addCase(createOrder.pending, (state) => {
-        state.orderRequest = true;
+        state.orderRequestStatus = true;
         state.errorMessage = null;
       })
       .addCase(createOrder.fulfilled, (state, action) => {
-        state.orderRequest = false;
+        state.orderRequestStatus = false;
         state.orderModalData = action.payload.order;
         state.constructorItems.bun = null;
         state.constructorItems.ingredients = [];
         state.errorMessage = null;
       })
       .addCase(createOrder.rejected, (state, action) => {
-        state.orderRequest = false;
+        state.orderRequestStatus = false;
         state.errorMessage = action.error.message;
       });
   },
   selectors: {
     getConstructorItems: (state) => state.constructorItems,
-    getOrderRequest: (state) => state.orderRequest,
+    getOrderRequestStatus: (state) => state.orderRequestStatus,
     getOrderModalData: (state) => state.orderModalData,
     getLoadingStatus: (state) => state.isLoading,
     getErrorMessage: (state) => state.errorMessage
@@ -117,7 +117,7 @@ export const constructorSlice = createSlice({
 export default constructorSlice;
 export const {
   getConstructorItems,
-  getOrderRequest,
+  getOrderRequestStatus,
   getOrderModalData,
   getLoadingStatus,
   getErrorMessage
@@ -126,7 +126,7 @@ export const {
 export const {
   addIngredient,
   removeIngredient,
-  moveUpIngredient,
-  moveDownIngredient,
-  clearOrder
+  moveIngredientUp,
+  moveIngredientDown,
+  resetOrder
 } = constructorSlice.actions;

@@ -11,7 +11,7 @@ interface FeedState {
   totalToday: number;
   errorMessage: null | string;
   isLoading: boolean;
-  modalOrder: TOrder | null;
+  chosenOrder: TOrder | null;
 }
 
 const initialState: FeedState = {
@@ -20,7 +20,7 @@ const initialState: FeedState = {
   totalToday: 0,
   errorMessage: null,
   isLoading: false,
-  modalOrder: null
+  chosenOrder: null
 };
 
 export const getFeed = createAsyncThunk('feed/data', getFeedsApi);
@@ -40,7 +40,11 @@ export const getOrderByNumber = createAsyncThunk(
 export const feedSlice = createSlice({
   name: 'feed',
   initialState,
-  reducers: {},
+  reducers: {
+    clearChosenOrder(state) {
+      state.chosenOrder = null;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getFeed.pending, (state) => {
@@ -61,7 +65,7 @@ export const feedSlice = createSlice({
       })
       .addCase(getOrderByNumber.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.modalOrder = action.payload.orders[0];
+        state.chosenOrder = action.payload.orders[0];
       })
       .addCase(getOrderByNumber.rejected, (state, action) => {
         state.isLoading = false;
@@ -74,7 +78,7 @@ export const feedSlice = createSlice({
     getOrdersAmountToday: (state) => state.totalToday,
     getLoadingStatus: (state) => state.isLoading,
     getErrorMessage: (state) => state.errorMessage,
-    getModalOrder: (state) => state.modalOrder
+    getChosenOrder: (state) => state.chosenOrder
   }
 });
 
@@ -84,5 +88,8 @@ export const {
   getOrdersAmountTotal,
   getOrdersAmountToday,
   getLoadingStatus,
-  getErrorMessage
+  getErrorMessage,
+  getChosenOrder
 } = feedSlice.selectors;
+
+export const { clearChosenOrder } = feedSlice.actions;

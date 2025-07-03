@@ -1,25 +1,48 @@
 import { FC, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { BurgerConstructorUI } from '@ui';
 import { TConstructorIngredient } from '@utils-types';
 
-import { useSelector } from '../../services/store';
+import { useSelector, useDispatch } from '../../services/store';
+import { getAuthStatus } from '../../services/slices/UserSlice';
 import {
   getConstructorItems,
+  getOrderRequestStatus,
   getOrderModalData,
-  getOrderRequest
+  createOrder,
+  resetOrder
 } from '../../services/slices/ConstructorSlice';
 
 export const BurgerConstructor: FC = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const constructorItems = useSelector(getConstructorItems);
-  const orderRequest = useSelector(getOrderRequest);
   const orderModalData = useSelector(getOrderModalData);
-  // TODO: Добавить проверку на авторизацию и возможность заказа/сброса
+
+  const isRequesting = useSelector(getOrderRequestStatus);
+  const isAuthorized = useSelector(getAuthStatus);
 
   const onOrderClick = () => {
-    if (!constructorItems.bun || orderRequest) return;
+    if (!isAuthorized) {
+      return navigate('/login');
+    }
+    if (!constructorItems.bun || isRequesting) return;
+
+    const order = [
+      constructorItems.bun?._id,
+      ...constructorItems.ingredients.map((ingredient) => ingredient._id),
+      constructorItems.bun?._id
+    ].filter(Boolean);
+
+    dispatch(createOrder(order));
   };
-  const closeOrderModal = () => {};
+
+  const closeOrderModal = () => {
+    dispatch(resetOrder());
+    navigate('/');
+  };
 
   const price = useMemo(
     () =>
@@ -34,7 +57,7 @@ export const BurgerConstructor: FC = () => {
   return (
     <BurgerConstructorUI
       price={price}
-      orderRequest={orderRequest}
+      orderRequest={isRequesting}
       constructorItems={constructorItems}
       orderModalData={orderModalData}
       onOrderClick={onOrderClick}
