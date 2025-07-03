@@ -7,9 +7,11 @@ import {
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
 import ingredientSlice from './slices/IngredientSlice';
+import constructorSlice from './slices/ConstructorSlice';
 
 const rootReducer = combineReducers({
-  [ingredientSlice.name]: ingredientSlice.reducer
+  [ingredientSlice.name]: ingredientSlice.reducer,
+  [constructorSlice.name]: constructorSlice.reducer
 });
 
 const store = configureStore({
