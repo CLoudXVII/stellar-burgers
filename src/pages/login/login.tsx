@@ -1,41 +1,35 @@
-import { Navigate } from 'react-router-dom';
-import { FC, SyntheticEvent, useState } from 'react';
+import { FC, FormEvent } from 'react';
 
 import { TLoginData } from '@api';
 import { LoginUI } from '@ui-pages';
 
-import { useDispatch, useSelector } from '../../services/store';
-import { getAuthStatus, userSignIn } from '../../services/slices/UserSlice';
+import { useForm } from '../../hooks/useForm';
+
+import { useDispatch } from '../../services/store';
+import { userSignIn } from '../../services/slices/UserSlice';
 
 export const Login: FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [values, onChange] = useForm<TLoginData>({
+    email: '',
+    password: ''
+  });
 
   const dispatch = useDispatch();
 
-  const isAuthenticated = useSelector(getAuthStatus);
-
-  const handleSubmit = (e: SyntheticEvent) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const userLoginData: TLoginData = {
-      email: email,
-      password: password
-    };
+    const userLoginData: TLoginData = { ...values };
+
     dispatch(userSignIn(userLoginData));
   };
-
-  if (isAuthenticated) {
-    return <Navigate to={'/'} />;
-  }
 
   return (
     <LoginUI
       errorText=''
-      email={email}
-      setEmail={setEmail}
-      password={password}
-      setPassword={setPassword}
+      email={values.email}
+      password={values.password}
+      onChange={onChange}
       handleSubmit={handleSubmit}
     />
   );

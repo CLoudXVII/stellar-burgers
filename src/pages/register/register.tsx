@@ -9,11 +9,14 @@ import {
   getUserRequestStatus,
   userSignUp
 } from '../../services/slices/UserSlice';
+import { useForm } from '../../hooks/useForm';
 
 export const Register: FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [userName, setUserName] = useState('');
+  const [values, onChange] = useForm<TRegisterData>({
+    name: '',
+    email: '',
+    password: ''
+  });
 
   const dispatch = useDispatch();
 
@@ -22,11 +25,7 @@ export const Register: FC = () => {
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
 
-    const user: TRegisterData = {
-      name: userName,
-      email: email,
-      password: password
-    };
+    const user: TRegisterData = { ...values };
 
     dispatch(userSignUp(user));
   };
@@ -38,12 +37,10 @@ export const Register: FC = () => {
   return (
     <RegisterUI
       errorText=''
-      email={email}
-      userName={userName}
-      password={password}
-      setEmail={setEmail}
-      setPassword={setPassword}
-      setUserName={setUserName}
+      email={values.email}
+      userName={values.name}
+      password={values.password}
+      onChange={onChange}
       handleSubmit={handleSubmit}
     />
   );
