@@ -4,7 +4,7 @@ import { TOrder } from '@utils-types';
 
 import { getFeedsApi, getOrderByNumberApi } from '../../utils/burger-api';
 
-interface FeedState {
+export interface FeedState {
   orders: TOrder[];
   total: number;
   totalToday: number;
@@ -48,6 +48,7 @@ export const feedSlice = createSlice({
     builder
       .addCase(getFeed.pending, (state) => {
         state.isLoading = true;
+        state.errorMessage = null;
       })
       .addCase(getFeed.fulfilled, (state, action) => {
         state.orders = action.payload.orders;
@@ -61,6 +62,7 @@ export const feedSlice = createSlice({
       })
       .addCase(getOrderByNumber.pending, (state) => {
         state.isLoading = true;
+        state.errorMessage = null;
       })
       .addCase(getOrderByNumber.fulfilled, (state, action) => {
         state.isLoading = false;
