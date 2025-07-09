@@ -7,10 +7,10 @@ import {
   loginUserApi,
   getUserApi,
   updateUserApi,
-  logoutApi
-} from '@api';
+  logoutApi,
+  TRegisterData
+} from '../../utils/burger-api';
 
-import { TRegisterData } from '../../utils/burger-api';
 import { getCookie, setCookie, deleteCookie } from '../../utils/cookie';
 
 interface UserState {
