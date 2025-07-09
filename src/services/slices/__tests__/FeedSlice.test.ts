@@ -97,4 +97,4 @@ describe('[FeedSlice] Получение заказа по номеру getOrder
       errorMessage: 'Test err'
     });
   });
-})
+});

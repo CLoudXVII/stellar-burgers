@@ -45,4 +45,8 @@ export const mockSauceIngredient: TConstructorIngredient = {
   image_large: 'https://code.s3.yandex.net/react/code/sauce-01-large.png'
 };
 
-export const allMocks = [mockBunIngredient, mockMainIngredient, mockSauceIngredient];
+export const allMocks = [
+  mockBunIngredient,
+  mockMainIngredient,
+  mockSauceIngredient
+];

@@ -3,7 +3,11 @@ import ingredientsSlice, {
   IngredientState
 } from '../IngredientSlice';
 
-import { mockBunIngredient, mockMainIngredient, mockSauceIngredient } from '../__mocks__/ingredients';
+import {
+  mockBunIngredient,
+  mockMainIngredient,
+  mockSauceIngredient
+} from '../__mocks__/ingredients';
 
 const initialState: IngredientState = {
   ingredients: [],
@@ -28,7 +32,10 @@ describe('[IngredientSlice] Загрузка ингредиентов getIngredi
   it('fulfilled: сохраняет ингредиенты и сбрасывает isLoading', () => {
     const state = ingredientsSlice.reducer(
       { ...initialState, isLoading: true },
-      getIngredients.fulfilled([mockBunIngredient, mockMainIngredient, mockSauceIngredient], '')
+      getIngredients.fulfilled(
+        [mockBunIngredient, mockMainIngredient, mockSauceIngredient],
+        ''
+      )
     );
 
     expect(state).toEqual({

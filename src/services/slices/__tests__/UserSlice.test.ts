@@ -32,12 +32,18 @@ describe('[UserSlice] Проверка входа', () => {
 
 describe('[UserSlice] Регистрация аккаунта userSignUp', () => {
   it('pending: устанавливает loginUserRequest в true', () => {
-    const state = userSlice.reducer(initialState, userSignUp.pending('', mockRegisterData));
+    const state = userSlice.reducer(
+      initialState,
+      userSignUp.pending('', mockRegisterData)
+    );
     expect(state).toEqual({ ...initialState, loginUserRequest: true });
   });
 
   it('fulfilled: сохраняет пользователя и устанавливает isAuthenticated', () => {
-    const state = userSlice.reducer(initialState, userSignUp.fulfilled(mockUser, '', mockRegisterData));
+    const state = userSlice.reducer(
+      initialState,
+      userSignUp.fulfilled(mockUser, '', mockRegisterData)
+    );
     expect(state).toEqual({
       ...initialState,
       user: mockUser,
@@ -48,7 +54,10 @@ describe('[UserSlice] Регистрация аккаунта userSignUp', () =>
 
   it('rejected: сохраняет сообщение об ошибке', () => {
     const error = new Error('User register error');
-    const state = userSlice.reducer(initialState, userSignUp.rejected(error, '', mockRegisterData));
+    const state = userSlice.reducer(
+      initialState,
+      userSignUp.rejected(error, '', mockRegisterData)
+    );
     expect(state).toEqual({
       ...initialState,
       isAuthenticated: false,
@@ -60,7 +69,10 @@ describe('[UserSlice] Регистрация аккаунта userSignUp', () =>
 
 describe('[UserSlice] Вход в аккаунт userSignIn', () => {
   it('pending: сбрасывает ошибку и включает loginUserRequest', () => {
-    const state = userSlice.reducer(initialState, userSignIn.pending('', mockLoginData));
+    const state = userSlice.reducer(
+      initialState,
+      userSignIn.pending('', mockLoginData)
+    );
     expect(state).toEqual({
       ...initialState,
       loginUserError: null,
@@ -69,7 +81,10 @@ describe('[UserSlice] Вход в аккаунт userSignIn', () => {
   });
 
   it('fulfilled: сохраняет пользователя и устанавливает isAuthenticated и isAuthChecked', () => {
-    const state = userSlice.reducer(initialState, userSignIn.fulfilled(mockUser, '', mockLoginData));
+    const state = userSlice.reducer(
+      initialState,
+      userSignIn.fulfilled(mockUser, '', mockLoginData)
+    );
     expect(state).toEqual({
       ...initialState,
       user: mockUser,
@@ -81,7 +96,10 @@ describe('[UserSlice] Вход в аккаунт userSignIn', () => {
 
   it('rejected: сохраняет сообщение об ошибке и сбрасывает флаги', () => {
     const error = new Error('User Log in Error');
-    const state = userSlice.reducer(initialState, userSignIn.rejected(error, '', mockLoginData));
+    const state = userSlice.reducer(
+      initialState,
+      userSignIn.rejected(error, '', mockLoginData)
+    );
     expect(state).toEqual({
       ...initialState,
       isAuthChecked: true,
@@ -100,7 +118,10 @@ describe('[UserSlice] Выход из аккаунта userSignOut', () => {
   };
 
   it('pending: включает loginUserRequest', () => {
-    const state = userSlice.reducer(authenticatedState, userSignOut.pending(''));
+    const state = userSlice.reducer(
+      authenticatedState,
+      userSignOut.pending('')
+    );
     expect(state).toEqual({
       ...authenticatedState,
       loginUserRequest: true
@@ -108,7 +129,10 @@ describe('[UserSlice] Выход из аккаунта userSignOut', () => {
   });
 
   it('fulfilled: сбрасывает авторизацию и пользователя', () => {
-    const state = userSlice.reducer(authenticatedState, userSignOut.fulfilled(undefined, ''));
+    const state = userSlice.reducer(
+      authenticatedState,
+      userSignOut.fulfilled(undefined, '')
+    );
     expect(state).toEqual({
       isAuthenticated: false,
       user: null,
@@ -120,7 +144,10 @@ describe('[UserSlice] Выход из аккаунта userSignOut', () => {
 
   it('rejected: сохраняет ошибку и сбрасывает авторизацию', () => {
     const error = new Error('Failed to log out');
-    const state = userSlice.reducer(authenticatedState, userSignOut.rejected(error, ''));
+    const state = userSlice.reducer(
+      authenticatedState,
+      userSignOut.rejected(error, '')
+    );
     expect(state).toEqual({
       ...authenticatedState,
       isAuthenticated: false,
@@ -132,7 +159,10 @@ describe('[UserSlice] Выход из аккаунта userSignOut', () => {
 
 describe('[UserSlice] Обновление данных аккаунта userUpdate', () => {
   it('pending: включает loginUserRequest и устанавливает isAuthenticated', () => {
-    const state = userSlice.reducer(initialState, userUpdate.pending('', mockUpdatedUser.user));
+    const state = userSlice.reducer(
+      initialState,
+      userUpdate.pending('', mockUpdatedUser.user)
+    );
     expect(state).toEqual({
       ...initialState,
       isAuthenticated: true,
@@ -141,7 +171,10 @@ describe('[UserSlice] Обновление данных аккаунта userUpd
   });
 
   it('fulfilled: обновляет пользователя', () => {
-    const state = userSlice.reducer(initialState, userUpdate.fulfilled(mockUpdatedUser, '', mockUser));
+    const state = userSlice.reducer(
+      initialState,
+      userUpdate.fulfilled(mockUpdatedUser, '', mockUser)
+    );
     expect(state).toEqual({
       isAuthenticated: true,
       user: mockUpdatedUser.user,
@@ -153,7 +186,10 @@ describe('[UserSlice] Обновление данных аккаунта userUpd
 
   it('rejected: сохраняет сообщение об ошибке', () => {
     const error = new Error('Failed to fetch update user');
-    const state = userSlice.reducer(initialState, userUpdate.rejected(error, '', mockUser));
+    const state = userSlice.reducer(
+      initialState,
+      userUpdate.rejected(error, '', mockUser)
+    );
     expect(state).toEqual({
       ...initialState,
       loginUserError: error.message,

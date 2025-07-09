@@ -34,7 +34,10 @@ describe('[ConstructorSlice] Тестирование конструктора �
   describe('[addIngredient]', () => {
     it('добавляет основной ингредиент', () => {
       const state = createInitialState();
-      const newState = burgerConstructorSlice.reducer(state, addIngredient(mockMainIngredient));
+      const newState = burgerConstructorSlice.reducer(
+        state,
+        addIngredient(mockMainIngredient)
+      );
 
       expect(newState.constructorItems.ingredients).toHaveLength(1);
       expect(newState.constructorItems.ingredients[0]).toEqual({
@@ -45,7 +48,10 @@ describe('[ConstructorSlice] Тестирование конструктора �
 
     it('добавляет булку', () => {
       const state = createInitialState();
-      const newState = burgerConstructorSlice.reducer(state, addIngredient(mockBunIngredient));
+      const newState = burgerConstructorSlice.reducer(
+        state,
+        addIngredient(mockBunIngredient)
+      );
 
       expect(newState.constructorItems.bun).toEqual({
         ...mockBunIngredient,
@@ -55,8 +61,14 @@ describe('[ConstructorSlice] Тестирование конструктора �
   });
 
   it('[removeIngredient] удаляет ингредиент', () => {
-    const state = createInitialState(mockBunIngredient, [mockMainIngredient, mockSauceIngredient]);
-    const newState = burgerConstructorSlice.reducer(state, removeIngredient(mockMainIngredient));
+    const state = createInitialState(mockBunIngredient, [
+      mockMainIngredient,
+      mockSauceIngredient
+    ]);
+    const newState = burgerConstructorSlice.reducer(
+      state,
+      removeIngredient(mockMainIngredient)
+    );
 
     expect(newState.constructorItems.ingredients).toHaveLength(1);
     expect(newState.constructorItems.ingredients[0]).toEqual({
@@ -66,7 +78,10 @@ describe('[ConstructorSlice] Тестирование конструктора �
   });
 
   it('[moveIngredientUp] перемещает ингредиент вверх', () => {
-    const state = createInitialState(mockBunIngredient, [mockMainIngredient, mockSauceIngredient]);
+    const state = createInitialState(mockBunIngredient, [
+      mockMainIngredient,
+      mockSauceIngredient
+    ]);
     const newState = burgerConstructorSlice.reducer(state, moveIngredientUp(1));
 
     expect(newState.constructorItems.ingredients[0]).toEqual({
@@ -80,8 +95,14 @@ describe('[ConstructorSlice] Тестирование конструктора �
   });
 
   it('[moveIngredientDown] перемещает ингредиент вниз', () => {
-    const state = createInitialState(mockBunIngredient, [mockMainIngredient, mockSauceIngredient]);
-    const newState = burgerConstructorSlice.reducer(state, moveIngredientDown(0));
+    const state = createInitialState(mockBunIngredient, [
+      mockMainIngredient,
+      mockSauceIngredient
+    ]);
+    const newState = burgerConstructorSlice.reducer(
+      state,
+      moveIngredientDown(0)
+    );
 
     expect(newState.constructorItems.ingredients[0]).toEqual({
       ...mockSauceIngredient,
@@ -94,7 +115,10 @@ describe('[ConstructorSlice] Тестирование конструктора �
   });
 
   it('[resetOrder] очищает конструктор', () => {
-    const state = createInitialState(mockBunIngredient, [mockMainIngredient, mockSauceIngredient]);
+    const state = createInitialState(mockBunIngredient, [
+      mockMainIngredient,
+      mockSauceIngredient
+    ]);
     const newState = burgerConstructorSlice.reducer(state, resetOrder());
 
     expect(newState.constructorItems).toEqual({
