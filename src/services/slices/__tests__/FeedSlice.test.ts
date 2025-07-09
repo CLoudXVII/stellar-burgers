@@ -11,8 +11,8 @@ const initialState: FeedState = {
   chosenOrder: null
 };
 
-describe('[FeedSlice] Работа с лентой заказов', () => {
-  it('устанавливает isLoading в true и сбрасывает ошибку при загрузке ленты', () => {
+describe('[FeedSlice] Получение ленты заказов getFeed', () => {
+  it('pending: устанавливает isLoading в true и сбрасывает ошибку', () => {
     const state = feedSlice.reducer(
       { ...initialState, errorMessage: 'Test err' },
       getFeed.pending('')
@@ -25,7 +25,7 @@ describe('[FeedSlice] Работа с лентой заказов', () => {
     });
   });
 
-  it('сохраняет данные заказов и сбрасывает isLoading при успешной загрузке ленты', () => {
+  it('fulfilled: сохраняет данные заказов и сбрасывает isLoading', () => {
     const state = feedSlice.reducer(
       { ...initialState, isLoading: true },
       getFeed.fulfilled(mockFeedResponse, '')
@@ -40,7 +40,7 @@ describe('[FeedSlice] Работа с лентой заказов', () => {
     });
   });
 
-  it('сохраняет сообщение об ошибке и сбрасывает isLoading при неудачной загрузке ленты', () => {
+  it('rejected: сохраняет сообщение об ошибке и сбрасывает isLoading', () => {
     const error = new Error('Test err');
 
     const state = feedSlice.reducer(
@@ -54,8 +54,10 @@ describe('[FeedSlice] Работа с лентой заказов', () => {
       errorMessage: 'Test err'
     });
   });
+});
 
-  it('устанавливает isLoading в true и сбрасывает ошибку при загрузке заказа по номеру', () => {
+describe('[FeedSlice] Получение заказа по номеру getOrderByNumber', () => {
+  it('pending: устанавливает isLoading в true и сбрасывает ошибку', () => {
     const state = feedSlice.reducer(
       { ...initialState, errorMessage: 'Test err' },
       getOrderByNumber.pending('1', 1)
@@ -68,7 +70,7 @@ describe('[FeedSlice] Работа с лентой заказов', () => {
     });
   });
 
-  it('сохраняет выбранный заказ и сбрасывает isLoading при успешной загрузке заказа по номеру', () => {
+  it('fulfilled: сохраняет выбранный заказ и сбрасывает isLoading', () => {
     const state = feedSlice.reducer(
       { ...initialState, isLoading: true },
       getOrderByNumber.fulfilled(mockFeedResponse, '1', 1)
@@ -81,7 +83,7 @@ describe('[FeedSlice] Работа с лентой заказов', () => {
     });
   });
 
-  it('сохраняет сообщение об ошибке и сбрасывает isLoading при неудачной загрузке заказа по номеру', () => {
+  it('rejected: сохраняет сообщение об ошибке и сбрасывает isLoading', () => {
     const error = new Error('Test err');
 
     const state = feedSlice.reducer(
@@ -95,4 +97,4 @@ describe('[FeedSlice] Работа с лентой заказов', () => {
       errorMessage: 'Test err'
     });
   });
-});
+})

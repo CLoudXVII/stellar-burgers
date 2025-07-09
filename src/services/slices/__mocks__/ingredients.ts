@@ -1,6 +1,6 @@
 import { TConstructorIngredient } from '@utils-types';
 
-export const bunMock: TConstructorIngredient = {
+export const mockBunIngredient: TConstructorIngredient = {
   id: '1',
   _id: '1',
   name: 'Краторная булка N-200i',
@@ -15,7 +15,7 @@ export const bunMock: TConstructorIngredient = {
   image_large: 'https://code.s3.yandex.net/react/code/bun-01-large.png'
 };
 
-export const mainMock: TConstructorIngredient = {
+export const mockMainIngredient: TConstructorIngredient = {
   id: '2',
   _id: '2',
   name: 'Говяжий метеорит (отбивная)',
@@ -30,7 +30,7 @@ export const mainMock: TConstructorIngredient = {
   image_large: 'https://code.s3.yandex.net/react/code/meat-04-large.png'
 };
 
-export const sauceMock: TConstructorIngredient = {
+export const mockSauceIngredient: TConstructorIngredient = {
   id: '3',
   _id: '3',
   name: 'Соус с шипами Антарианского плоскоходца',
@@ -45,4 +45,4 @@ export const sauceMock: TConstructorIngredient = {
   image_large: 'https://code.s3.yandex.net/react/code/sauce-01-large.png'
 };
 
-export const allMocks = [bunMock, mainMock, sauceMock];
+export const allMocks = [mockBunIngredient, mockMainIngredient, mockSauceIngredient];

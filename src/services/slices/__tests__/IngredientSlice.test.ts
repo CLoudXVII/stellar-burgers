@@ -3,7 +3,7 @@ import ingredientsSlice, {
   IngredientState
 } from '../IngredientSlice';
 
-import { bunMock, mainMock, sauceMock } from '../__mocks__/ingredients';
+import { mockBunIngredient, mockMainIngredient, mockSauceIngredient } from '../__mocks__/ingredients';
 
 const initialState: IngredientState = {
   ingredients: [],
@@ -11,8 +11,8 @@ const initialState: IngredientState = {
   errorMessage: null
 };
 
-describe('[IngredientSlice] Загрузка ингредиентов', () => {
-  it('устанавливает isLoading в true и сбрасывает ошибку при загрузке', () => {
+describe('[IngredientSlice] Загрузка ингредиентов getIngredients', () => {
+  it('pending: устанавливает isLoading в true и сбрасывает ошибку', () => {
     const state = ingredientsSlice.reducer(
       { ...initialState, errorMessage: 'Test err' },
       getIngredients.pending('')
@@ -25,20 +25,20 @@ describe('[IngredientSlice] Загрузка ингредиентов', () => {
     });
   });
 
-  it('сохраняет ингредиенты и сбрасывает isLoading при успешной загрузке', () => {
+  it('fulfilled: сохраняет ингредиенты и сбрасывает isLoading', () => {
     const state = ingredientsSlice.reducer(
       { ...initialState, isLoading: true },
-      getIngredients.fulfilled([bunMock, mainMock, sauceMock], '')
+      getIngredients.fulfilled([mockBunIngredient, mockMainIngredient, mockSauceIngredient], '')
     );
 
     expect(state).toEqual({
-      ingredients: [bunMock, mainMock, sauceMock],
+      ingredients: [mockBunIngredient, mockMainIngredient, mockSauceIngredient],
       isLoading: false,
       errorMessage: null
     });
   });
 
-  it('сохраняет сообщение об ошибке и сбрасывает isLoading при неудачной загрузке', () => {
+  it('rejected: сохраняет сообщение об ошибке и сбрасывает isLoading', () => {
     const error = new Error('Test err');
 
     const state = ingredientsSlice.reducer(
