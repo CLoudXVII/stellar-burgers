@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, FC } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import { Preloader } from '@ui';
-import { TIngredient, TTabMode } from '@utils-types';
+import { TTabMode } from '@utils-types';
 
 import { BurgerIngredientsUI } from '../ui/burger-ingredients';
 

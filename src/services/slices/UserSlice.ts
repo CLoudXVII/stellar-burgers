@@ -7,13 +7,13 @@ import {
   loginUserApi,
   getUserApi,
   updateUserApi,
-  logoutApi
-} from '@api';
+  logoutApi,
+  TRegisterData
+} from '../../utils/burger-api';
 
-import { TRegisterData } from '../../utils/burger-api';
 import { getCookie, setCookie, deleteCookie } from '../../utils/cookie';
 
-interface UserState {
+export interface UserState {
   isAuthChecked: boolean;
   isAuthenticated: boolean;
   user: TUser | null;
@@ -31,7 +31,7 @@ const initialState: UserState = {
 
 export const userGetApi = createAsyncThunk('user/userApi', getUserApi);
 
-export const userUpdateApi = createAsyncThunk('user/update', updateUserApi);
+export const userUpdate = createAsyncThunk('user/update', updateUserApi);
 
 export const userSignUp = createAsyncThunk(
   'user/sign-up',
@@ -146,16 +146,16 @@ export const userSlice = createSlice({
         state.loginUserRequest = false;
         state.loginUserError = action.error.message || 'Failed to sign out';
       })
-      .addCase(userUpdateApi.pending, (state) => {
+      .addCase(userUpdate.pending, (state) => {
         state.isAuthenticated = true;
         state.loginUserRequest = true;
       })
-      .addCase(userUpdateApi.fulfilled, (state, action) => {
+      .addCase(userUpdate.fulfilled, (state, action) => {
         state.isAuthenticated = true;
         state.user = action.payload.user;
         state.loginUserRequest = false;
       })
-      .addCase(userUpdateApi.rejected, (state, action) => {
+      .addCase(userUpdate.rejected, (state, action) => {
         state.loginUserError =
           action.error.message || 'Failed to update user information';
         state.loginUserRequest = false;

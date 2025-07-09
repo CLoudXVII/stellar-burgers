@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import { getIngredientsApi } from '../../utils/burger-api';
 
-interface IngredientState {
+export interface IngredientState {
   ingredients: Array<TIngredient>;
   isLoading: boolean;
   errorMessage: string | null | undefined;

@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from '../../services/store';
 import {
   getUser,
   getUserRequestStatus,
-  userUpdateApi
+  userUpdate
 } from '../../services/slices/UserSlice';
 
 export const Profile: FC = () => {
@@ -40,7 +40,7 @@ export const Profile: FC = () => {
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     dispatch(
-      userUpdateApi({
+      userUpdate({
         name: formValue.name,
         email: formValue.email,
         password: formValue.password
