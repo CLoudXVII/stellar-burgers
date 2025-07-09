@@ -1,21 +1,35 @@
-import { FC, SyntheticEvent, useState } from 'react';
+import { FC, FormEvent } from 'react';
+
+import { TLoginData } from '@api';
 import { LoginUI } from '@ui-pages';
 
-export const Login: FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+import { useForm } from '../../hooks/useForm';
 
-  const handleSubmit = (e: SyntheticEvent) => {
+import { useDispatch } from '../../services/store';
+import { userSignIn } from '../../services/slices/UserSlice';
+
+export const Login: FC = () => {
+  const [values, onChange] = useForm<TLoginData>({
+    email: '',
+    password: ''
+  });
+
+  const dispatch = useDispatch();
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const userLoginData: TLoginData = { ...values };
+
+    dispatch(userSignIn(userLoginData));
   };
 
   return (
     <LoginUI
       errorText=''
-      email={email}
-      setEmail={setEmail}
-      password={password}
-      setPassword={setPassword}
+      email={values.email}
+      password={values.password}
+      onChange={onChange}
       handleSubmit={handleSubmit}
     />
   );

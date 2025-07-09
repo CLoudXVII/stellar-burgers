@@ -1,24 +1,48 @@
 import { FC, useMemo } from 'react';
-import { TConstructorIngredient } from '@utils-types';
+import { useNavigate } from 'react-router-dom';
+
 import { BurgerConstructorUI } from '@ui';
+import { TConstructorIngredient } from '@utils-types';
+
+import { useSelector, useDispatch } from '../../services/store';
+import { getAuthStatus } from '../../services/slices/UserSlice';
+import {
+  getConstructorItems,
+  getOrderRequestStatus,
+  getOrderModalData,
+  createOrder,
+  resetOrder
+} from '../../services/slices/ConstructorSlice';
 
 export const BurgerConstructor: FC = () => {
-  /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
-  const constructorItems = {
-    bun: {
-      price: 0
-    },
-    ingredients: []
-  };
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const orderRequest = false;
+  const constructorItems = useSelector(getConstructorItems);
+  const orderModalData = useSelector(getOrderModalData);
 
-  const orderModalData = null;
+  const isRequesting = useSelector(getOrderRequestStatus);
+  const isAuthorized = useSelector(getAuthStatus);
 
   const onOrderClick = () => {
-    if (!constructorItems.bun || orderRequest) return;
+    if (!isAuthorized) {
+      return navigate('/login');
+    }
+    if (!constructorItems.bun || isRequesting) return;
+
+    const order = [
+      constructorItems.bun?._id,
+      ...constructorItems.ingredients.map((ingredient) => ingredient._id),
+      constructorItems.bun?._id
+    ].filter(Boolean);
+
+    dispatch(createOrder(order));
   };
-  const closeOrderModal = () => {};
+
+  const closeOrderModal = () => {
+    dispatch(resetOrder());
+    navigate('/');
+  };
 
   const price = useMemo(
     () =>
@@ -30,12 +54,10 @@ export const BurgerConstructor: FC = () => {
     [constructorItems]
   );
 
-  return null;
-
   return (
     <BurgerConstructorUI
       price={price}
-      orderRequest={orderRequest}
+      orderRequest={isRequesting}
       constructorItems={constructorItems}
       orderModalData={orderModalData}
       onOrderClick={onOrderClick}
